@@ -1,7 +1,1 @@
-* no longer opens app to "accept" a device sharing a folder if that folder already exists
-* fixes conflicts between two syncthing apps
-
-* internal changes:
-  * updated to java 17 to use newer language features
-  * refactor: use switch for handling actions in SyncthingService
-  * refactor: improve and simplify switch cases all around the code, use switch expressions if possible
+* update syncthing to v1.29.3
