@@ -46,8 +46,8 @@ android {
         applicationId = "gay.rooot.syncthingandroid"
         minSdk = 21
         targetSdk = 33
-        versionCode = 4399
-        versionName = "1.29.3"
+        versionCode = 4400
+        versionName = "1.29.7"
         testApplicationId = "gay.rooot.syncthingandroid.test"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
