@@ -1,3 +1,3 @@
-* update syncthing to v1.29.7
-* update android NDK to r28.1
-* update android SDK to 35
+* update syncthing to v2.0.5
+* refactor syncthing home directory to use env variables
+* add syncmeow version info to STVERSIONEXTRA 
