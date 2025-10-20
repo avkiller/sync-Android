@@ -84,15 +84,15 @@ public class SyncthingRunnable implements Runnable {
         mUseRoot = mPreferences.getBoolean(Constants.PREF_USE_ROOT, false) && Shell.SU.available();
         switch (command) {
             case deviceid ->
-                    mCommand = new String[]{mSyncthingBinary.getPath(), "-home", mContext.getFilesDir().toString(), "--device-id"};
+                    mCommand = new String[]{mSyncthingBinary.getPath(), "--home", mContext.getFilesDir().toString(), "device-id"};
             case generate ->
-                    mCommand = new String[]{mSyncthingBinary.getPath(), "-generate", mContext.getFilesDir().toString(), "-logflags=0"};
+                    mCommand = new String[]{mSyncthingBinary.getPath(), "--home", mContext.getFilesDir().toString(), "generate"/*, "-logflags=0"*/};
             case main ->
-                    mCommand = new String[]{mSyncthingBinary.getPath(), "-home", mContext.getFilesDir().toString(), "-no-browser", "-logflags=0"};
+                    mCommand = new String[]{mSyncthingBinary.getPath(), "--home", mContext.getFilesDir().toString(), "--no-browser"/*, "-logflags=0"*/};
             case resetdatabase ->
-                    mCommand = new String[]{mSyncthingBinary.getPath(), "-home", mContext.getFilesDir().toString(), "-reset-database", "-logflags=0"};
+                    mCommand = new String[]{mSyncthingBinary.getPath(), "--home", mContext.getFilesDir().toString(), "debug", "reset-database"/*, "-logflags=0"*/};
             case resetdeltas ->
-                    mCommand = new String[]{mSyncthingBinary.getPath(), "-home", mContext.getFilesDir().toString(), "-reset-deltas", "-logflags=0"};
+                    mCommand = new String[]{mSyncthingBinary.getPath(), "--home", mContext.getFilesDir().toString(), "serve", "--debug-reset-delta-idxs"/*, "-logflags=0"*/};
             default -> throw new InvalidParameterException("Unknown command option");
         }
     }
