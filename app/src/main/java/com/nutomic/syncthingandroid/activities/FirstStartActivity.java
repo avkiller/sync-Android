@@ -209,7 +209,7 @@ public class FirstStartActivity extends Activity {
     }
 
     private void upgradeToApiLevel30() {
-        File dbDir = new File(this.getFilesDir(), "index-v0.14.0.db");
+        File dbDir = new File(this.getFilesDir(), "index-v2");
         if (dbDir.exists()) {
             try {
                 FileUtils.deleteQuietly(dbDir);
