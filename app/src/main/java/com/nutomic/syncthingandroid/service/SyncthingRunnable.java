@@ -414,9 +414,7 @@ public class SyncthingRunnable implements Runnable {
             targetEnv.put("STGUIASSETS", externalFilesDir.getAbsolutePath() + "/gui");
         targetEnv.put("STMONITORED", "1");
         targetEnv.put("STNOUPGRADE", "1");
-        // Disable hash benchmark for faster startup.
-        // https://github.com/syncthing/syncthing/issues/4348
-        targetEnv.put("STHASHING", "minio");
+
         // append syncmeow to the syncthing version to distinguish from other syncthings
         targetEnv.put("STVERSIONEXTRA", "syncmeow-" + BuildConfig.BUILD_TYPE + "-" + BuildConfig.VERSION_NAME + "_" + BuildConfig.VERSION_CODE);
         if (mPreferences.getBoolean(Constants.PREF_USE_TOR, false)) {
