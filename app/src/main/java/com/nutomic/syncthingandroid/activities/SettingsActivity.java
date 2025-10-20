@@ -667,7 +667,7 @@ public class SettingsActivity extends SyncthingActivity {
          */
         private boolean handleSocksProxyPreferenceChange(Preference preference, String newValue) {
             // Valid input is either a proxy address or an empty field to disable the proxy.
-            if (newValue.equals("")) {
+            if (newValue.isEmpty()) {
                 preference.setSummary(getString(R.string.do_not_use_proxy) + " " + getString(R.string.generic_example) + ": " + getString(R.string.socks_proxy_address_example));
                 return true;
             } else if (newValue.matches("^socks5://.*:\\d{1,5}$")) {
@@ -686,7 +686,7 @@ public class SettingsActivity extends SyncthingActivity {
          */
         private boolean handleHttpProxyPreferenceChange(Preference preference, String newValue) {
             // Valid input is either a proxy address or an empty field to disable the proxy.
-            if (newValue.equals("")) {
+            if (newValue.isEmpty()) {
                 preference.setSummary(getString(R.string.do_not_use_proxy) + " " + getString(R.string.generic_example) + ": " + getString(R.string.http_proxy_address_example));
                 return true;
             } else if (newValue.matches("^http://.*:\\d{1,5}$")) {
