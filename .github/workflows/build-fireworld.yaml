@@ -13,6 +13,7 @@ env:
   NDK_VERSION: "r28b"
   TAG_NAME: "nightly"
   VERSION: "2.0.0"
+  APP_VERSION: "2.0.0"
   DefaultVERSION: "2.0.0"
 
 jobs:
@@ -37,25 +38,31 @@ jobs:
             git fetch --tags
             # 按版本号排序获取最新 Tag（兼容语义化版本）
             LATEST_TAG=$(git tag --sort=-v:refname | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1 || echo 'nightly')
-
+            LATEST_LIB_TAG=$(git -C syncthing\src\github.com\avkiller\syncthing describe --tags --abbrev=0 | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)
+            echo ${LATEST_TAG}
+            echo ${LATEST_LIB_TAG}
             # 去掉 Tag 名称中的 'v' 前缀
-            version="${LATEST_TAG#v}"
+            app_version="${LATEST_TAG#v}"
             if [[ "$version" == "nightly" ]]; then
-              version=${{ env.DefaultVERSION }}
+              app_version=${{ env.DefaultVERSION }}
+            fi
+
+            lib_version="${LATEST_LIB_TAG#v}"
+            if [[ "$lib_version" == "nightly" ]]; then
+              lib_version=${{ env.DefaultVERSION }}
             fi
           else
-           # 原有逻辑：从推送的 Tag 中提取版本号
-           TAG_VERSION="${GITHUB_REF##*/}"
-           version="${TAG_VERSION}"
-           if [[ "$version" == "nightly" ]]; then
-              version=${{ env.DefaultVERSION }}
-           fi
+           
+            app_version=${{ env.DefaultVERSION }}
+            lib_version=${{ env.DefaultVERSION }}
+
           fi
 
 
           # 将信息写入环境变量
           echo "TAG_NAME=$LATEST_TAG" >> $GITHUB_ENV
-          echo "VERSION=$version" >> $GITHUB_ENV
+          echo "VERSION=$lib_version" >> $GITHUB_ENV
+          echo "APP_VERSION=$app_version" >> $GITHUB_ENV
         
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -106,7 +113,7 @@ jobs:
           ./gradlew --no-daemon buildNative lintRelease assembleRelease
           # ./gradlew lint assembleRelease --debug --info --scan
           ls -al app/build/outputs/apk/release
-          mv app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/syncthing-${{ env.VERSION }}.apk
+          mv app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/syncthing-${{ env.APP_VERSION }}.apk
         env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
