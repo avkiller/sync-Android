@@ -12,7 +12,7 @@ env:
   # Our build metadata
   NDK_VERSION: "r28b"
   TAG_NAME: "nightly"
-  # VERSION: "1.29.6"
+  VERSION: "1.29.6"
 
 jobs:
   setup_env:
@@ -78,11 +78,11 @@ jobs:
             LATEST_TAG=$(git tag --sort=-v:refname | head -n 1 || echo "nightly")
 
             # 去掉 Tag 名称中的 'v' 前缀
-            # VERSION="${LATEST_TAG}"
+            VERSION="${LATEST_TAG}"
           else
            # 原有逻辑：从推送的 Tag 中提取版本号
            TAG_VERSION="${GITHUB_REF##*/}"
-           # VERSION="${TAG_VERSION}"
+           VERSION="${TAG_VERSION}"
           fi
 
 
@@ -110,8 +110,6 @@ jobs:
           # ./gradlew lint assembleRelease --debug --info --scan
           ls -al app/build/outputs/apk/release
           mv app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/syncthing-${{ env.VERSION }}.apk
-          # mv app/build/outputs/apk/release/app-armeabi-v7a-release-unsigned.apk app/build/outputs/apk/release/syncthing-v7a-${{ env.VERSION }}.apk
-          # mv app/build/outputs/apk/release/app-universal-release-unsigned.apk app/build/outputs/apk/release/syncthing-universal-${{ env.VERSION }}.apk
         env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
@@ -156,4 +154,4 @@ jobs:
           # token: ${{ secrets.GIT_TOKEN }}
           tag_name: ${{ env.TAG_NAME }}
           files: |
-            app/build/outputs/apk/release/syncthing*.apk
+            app/build/outputs/apk/release/syncthing*signed.apk
