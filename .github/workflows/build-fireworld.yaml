@@ -57,48 +57,7 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
-        
-      - name: clean cache
-        # if: false
-        run: |
-            chmod +x gradlew
-            ./gradlew cleanNative
-            ./gradlew clean
 
-      #- name: check lint
-      #  run: |
-      #       ./gradlew .app:lintRelease
-     
-      
-  build_app: 
-    name: Build syncthing apk
-    needs: setup_env  # 依赖准备阶段
-    runs-on: ubuntu-latest
-    steps:  
-      - uses: actions/checkout@v4
-        with:
-          submodules: true
-          fetch-depth: 0
-
-      - name: Build with Gradle
-        run: |
-          # set -eu
-          # git config --system --add safe.directory '*'
-          java -version
-          # ./gradlew buildNative
-          # ./gradlew lint assembleRelease
-          ./gradlew --no-daemon buildNative lintRelease assembleRelease
-          # ./gradlew lint assembleRelease --debug --info --scan
-          ls -al app/build/outputs/apk/release
-          mv app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/syncthing-${{ env.VERSION }}.apk
-        env:
-          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
-
-  release_app: 
-      name: release syncthing apk
-      needs: build_app  # 依赖准备阶段
-      runs-on: ubuntu-latest
-      steps:  
 
       - name: Get tag version
         run: |
@@ -120,6 +79,31 @@ jobs:
 
           # 将信息写入环境变量
           echo "TAG_NAME=$LATEST_TAG" >> $GITHUB_ENV
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+        
+      - name: clean cache
+        if: false
+        run: |
+            chmod +x gradlew
+            ./gradlew cleanNative
+            ./gradlew clean
+
+      - name: Build with Gradle
+        run: |
+          # set -eu
+          # git config --system --add safe.directory '*'
+          java -version
+          # ./gradlew buildNative
+          # ./gradlew lint assembleRelease
+          ./gradlew --no-daemon buildNative lintRelease assembleRelease
+          # ./gradlew lint assembleRelease --debug --info --scan
+          ls -al app/build/outputs/apk/release
+          mv app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/syncthing-${{ env.VERSION }}.apk
+        env:
+          ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+
+     
+     
 
       - name: Setup sign tool version variable
         shell: bash
