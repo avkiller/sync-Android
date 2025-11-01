@@ -14,12 +14,12 @@ PLATFORM_DIRS = {
 
 # The values here must correspond with those in ../docker/prebuild.sh
 BUILD_TARGETS = [
-    {
-        'arch': 'arm',
-        'goarch': 'arm',
-        'jni_dir': 'armeabi',
-        'cc': 'armv7a-linux-androideabi{}-clang',
-    },
+    # {
+    #     'arch': 'arm',
+    #     'goarch': 'arm',
+    #     'jni_dir': 'armeabi',
+    #     'cc': 'armv7a-linux-androideabi{}-clang',
+    # },
     {
         'arch': 'arm64',
         'goarch': 'arm64',
