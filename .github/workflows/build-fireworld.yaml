@@ -40,14 +40,14 @@ jobs:
 
             # 去掉 Tag 名称中的 'v' 前缀
             version="${LATEST_TAG#v}"
-            if [[ "$version" == nightly]]; then
+            if [[ "$version" == "nightly"]]; then
               version=${{ env.DefaultVERSION }}
             fi
           else
            # 原有逻辑：从推送的 Tag 中提取版本号
            TAG_VERSION="${GITHUB_REF##*/}"
            version="${TAG_VERSION}"
-           if [[ "$VERSION" == nightly]]; then
+           if [[ "$VERSION" == "nightly"]]; then
               version=${{ env.DefaultVERSION }}
            fi
           fi
