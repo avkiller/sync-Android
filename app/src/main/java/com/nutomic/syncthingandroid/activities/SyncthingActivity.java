@@ -21,7 +21,7 @@ import java.util.LinkedList;
  */
 public abstract class SyncthingActivity extends ThemedAppCompatActivity implements ServiceConnection {
 
-    public static final String EXTRA_KEY_GENERATION_IN_PROGRESS = "${applicationId}.SyncthingActivity.KEY_GENERATION_IN_PROGRESS";
+    public static final String EXTRA_KEY_GENERATION_IN_PROGRESS = ".SyncthingActivity.KEY_GENERATION_IN_PROGRESS";
 
     private SyncthingService mSyncthingService;
 

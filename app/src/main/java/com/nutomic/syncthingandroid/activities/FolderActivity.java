@@ -58,15 +58,15 @@ public class FolderActivity extends SyncthingActivity
         implements SyncthingActivity.OnServiceConnectedListener, SyncthingService.OnServiceStateChangeListener {
 
     public static final String EXTRA_NOTIFICATION_ID =
-            "${applicationId}.activities.FolderActivity.NOTIFICATION_ID";
+            ".activities.FolderActivity.NOTIFICATION_ID";
     public static final String EXTRA_IS_CREATE =
-            "${applicationId}.activities.FolderActivity.IS_CREATE";
+            ".activities.FolderActivity.IS_CREATE";
     public static final String EXTRA_FOLDER_ID =
-            "${applicationId}.activities.FolderActivity.FOLDER_ID";
+            ".activities.FolderActivity.FOLDER_ID";
     public static final String EXTRA_FOLDER_LABEL =
-            "${applicationId}.activities.FolderActivity.FOLDER_LABEL";
+            ".activities.FolderActivity.FOLDER_LABEL";
     public static final String EXTRA_DEVICE_ID =
-            "${applicationId}.activities.FolderActivity.DEVICE_ID";
+            ".activities.FolderActivity.DEVICE_ID";
 
     private static final String TAG = "FolderActivity";
 
