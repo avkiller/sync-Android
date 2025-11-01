@@ -68,26 +68,7 @@ jobs:
       #- name: check lint
       #  run: |
       #       ./gradlew .app:lintRelease
-      - name: Get tag version
-        run: |
-          # 如果是手动触发 (workflow_dispatch)
-          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
-            # 获取所有 Tag（确保包含远程 Tag）
-            git fetch --tags
-            # 按版本号排序获取最新 Tag（兼容语义化版本）
-            LATEST_TAG=$(git tag --sort=-v:refname | head -n 1 || echo "nightly")
-
-            # 去掉 Tag 名称中的 'v' 前缀
-            VERSION="${LATEST_TAG}"
-          else
-           # 原有逻辑：从推送的 Tag 中提取版本号
-           TAG_VERSION="${GITHUB_REF##*/}"
-           VERSION="${TAG_VERSION}"
-          fi
-
-
-          # 将信息写入环境变量
-          echo "TAG_NAME=$LATEST_TAG" >> $GITHUB_ENV
+     
       
   build_app: 
     name: Build syncthing apk
@@ -118,6 +99,27 @@ jobs:
       needs: build_app  # 依赖准备阶段
       runs-on: ubuntu-latest
       steps:  
+
+      - name: Get tag version
+        run: |
+          # 如果是手动触发 (workflow_dispatch)
+          if [ "$GITHUB_EVENT_NAME" = "workflow_dispatch" ]; then
+            # 获取所有 Tag（确保包含远程 Tag）
+            git fetch --tags
+            # 按版本号排序获取最新 Tag（兼容语义化版本）
+            LATEST_TAG=$(git tag --sort=-v:refname | head -n 1 || echo "nightly")
+
+            # 去掉 Tag 名称中的 'v' 前缀
+            VERSION="${LATEST_TAG}"
+          else
+           # 原有逻辑：从推送的 Tag 中提取版本号
+           TAG_VERSION="${GITHUB_REF##*/}"
+           VERSION="${TAG_VERSION}"
+          fi
+
+
+          # 将信息写入环境变量
+          echo "TAG_NAME=$LATEST_TAG" >> $GITHUB_ENV
 
       - name: Setup sign tool version variable
         shell: bash
