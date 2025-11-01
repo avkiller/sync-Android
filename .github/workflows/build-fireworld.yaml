@@ -38,12 +38,12 @@ jobs:
             git fetch --tags
             # 按版本号排序获取最新 Tag（兼容语义化版本）
             LATEST_TAG=$(git tag --sort=-v:refname | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1 || echo 'nightly')
-            LATEST_LIB_TAG=$(git -C syncthing\src\github.com\avkiller\syncthing describe --tags --abbrev=0 | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)
+            LATEST_LIB_TAG=$(git -C syncthing/src/github.com/avkiller/syncthing describe --tags --abbrev=0 | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1)
             echo ${LATEST_TAG}
             echo ${LATEST_LIB_TAG}
             # 去掉 Tag 名称中的 'v' 前缀
             app_version="${LATEST_TAG#v}"
-            if [[ "$version" == "nightly" ]]; then
+            if [[ "$app_version" == "nightly" ]]; then
               app_version=${{ env.DefaultVERSION }}
             fi
 
