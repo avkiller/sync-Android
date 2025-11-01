@@ -36,18 +36,18 @@ jobs:
             # 获取所有 Tag（确保包含远程 Tag）
             git fetch --tags
             # 按版本号排序获取最新 Tag（兼容语义化版本）
-            LATEST_TAG=$(git tag --sort=-v:refname | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1 | echo 'nightly')
+            LATEST_TAG=$(git tag --sort=-v:refname | grep -E '^v?[0-9]+\.[0-9]+\.[0-9]+$' | head -n 1 || echo 'nightly')
 
             # 去掉 Tag 名称中的 'v' 前缀
             version="${LATEST_TAG#v}"
-            if [[ "$version" == "nightly"]]; then
+            if [[ "$version" == "nightly" ]]; then
               version=${{ env.DefaultVERSION }}
             fi
           else
            # 原有逻辑：从推送的 Tag 中提取版本号
            TAG_VERSION="${GITHUB_REF##*/}"
            version="${TAG_VERSION}"
-           if [[ "$VERSION" == "nightly"]]; then
+           if [[ "$version" == "nightly" ]]; then
               version=${{ env.DefaultVERSION }}
            fi
           fi
