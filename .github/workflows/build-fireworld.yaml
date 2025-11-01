@@ -35,12 +35,12 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: '17'
       - name: Get Go version from Syncthing upstream
         id: get_go_version
         run: |
           set -eu
-          GO_VERSION=$(grep -E '^\s*GO_VERSION:' syncthing/src/github.com/syncthing/syncthing/.github/workflows/build-syncthing.yaml | head -1 | cut -d '"' -f 2)
+          GO_VERSION=$(grep -E '^\s*GO_VERSION:' syncthing/src/github.com/avkiller/syncthing/.github/workflows/build-syncthing.yaml | head -1 | cut -d '"' -f 2)
           echo "go_version=${GO_VERSION}" >> $GITHUB_OUTPUT
           echo "GO_VERSION=${GO_VERSION}" >> $GITHUB_ENV
       - name: Set up Go
@@ -50,74 +50,11 @@ jobs:
           check-latest: true
           cache: false
 
-      - name: Get syncthing commit hash for native libs cache
-        id: get_syncthing_commit
-        run: |
-          set -eu
-          SYNCTHING_COMMIT=$(cd syncthing/src/github.com/syncthing/syncthing && git rev-parse HEAD)
-          echo "syncthing_commit=${SYNCTHING_COMMIT}" >> $GITHUB_OUTPUT
-          echo "SYNCTHING_COMMIT=${SYNCTHING_COMMIT}" >> $GITHUB_ENV
-      
-      - name: Get NDK version from gradle catalog
-        id: get_ndk_version
-        run: |
-          set -eu
-          NDK_VERSION=$(grep 'ndk-version = ' gradle/libs.versions.toml | cut -d '"' -f 2)
-          echo "ndk_version=${NDK_VERSION}" >> $GITHUB_OUTPUT
-      - name: Get app version from libs.versions.toml
-        id: get_version
-        run: |
-          set -eu
-          VERSION=$(grep 'version-name = ' gradle/libs.versions.toml | cut -d '"' -f 2)
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
-          echo "JAVA_HOME=$JAVA_HOME_21_X64" >> $GITHUB_ENV
-          java -version
-          sudo update-alternatives --set java /usr/lib/jvm/temurin-21-jdk-amd64/bin/java
-
       - uses: nttld/setup-ndk@v1
         id: setup-ndk
         with:
           ndk-version: ${{ env.NDK_VERSION }}
 
-      - name: Get Android cmdline-tools version from gradle catalog
-        id: get_cmdline_tools_version
-        run: |
-          set -eu
-          CMDLINE_TOOLS_VERSION=$(grep 'android-cmdline-tools = ' gradle/libs.versions.toml | cut -d '"' -f 2)
-          echo "cmdline_tools_version=${CMDLINE_TOOLS_VERSION}" >> $GITHUB_OUTPUT
-          add-to-path: true
-      - name: Install Android SDK
-        run: |
-          set -eu
-          # Set environment variables
-          echo "ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
-          echo "ANDROID_SDK_ROOT=$HOME/android-sdk" >> $GITHUB_ENV
-          echo "$HOME/android-sdk/cmdline-tools/latest/bin" >> $GITHUB_PATH
-          
-          echo "Installing Android SDK from scratch"
-          # Install Android command line tools
-          SDK_TOOLS_VERSION="${{ steps.get_cmdline_tools_version.outputs.cmdline_tools_version }}"
-          SDK_TOOLS_FILE="commandlinetools-linux-${SDK_TOOLS_VERSION}_latest.zip"
-          
-          mkdir -p $HOME/android-sdk/cmdline-tools
-          cd $HOME/android-sdk/cmdline-tools
-          
-          wget -q "https://dl.google.com/android/repository/${SDK_TOOLS_FILE}"
-          unzip -q "${SDK_TOOLS_FILE}"
-          rm "${SDK_TOOLS_FILE}"
-          
-          # Move to expected location
-          mv cmdline-tools latest
-          
-          # Accept Android licenses
-          yes | $HOME/android-sdk/cmdline-tools/latest/bin/sdkmanager --licenses
-          
-      # - name: Install dependencies
-      #   if: false
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install -y binutils-arm-linux-gnueabi binutils-aarch64-linux-gnu
-      #   #sudo apt-get install -y python3 openjdk-17-jdk-headless
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
         
@@ -163,9 +100,9 @@ jobs:
           ./gradlew --no-daemon buildNative lintRelease assembleRelease
           # ./gradlew lint assembleRelease --debug --info --scan
           ls -al app/build/outputs/apk/release
-          mv app/build/outputs/apk/release/app-arm64-v8a-release-unsigned.apk app/build/outputs/apk/release/syncthing-v8a-${{ env.VERSION }}.apk
-          mv app/build/outputs/apk/release/app-armeabi-v7a-release-unsigned.apk app/build/outputs/apk/release/syncthing-v7a-${{ env.VERSION }}.apk
-          mv app/build/outputs/apk/release/app-universal-release-unsigned.apk app/build/outputs/apk/release/syncthing-universal-${{ env.VERSION }}.apk
+          mv app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/syncthing-${{ env.VERSION }}.apk
+          # mv app/build/outputs/apk/release/app-armeabi-v7a-release-unsigned.apk app/build/outputs/apk/release/syncthing-v7a-${{ env.VERSION }}.apk
+          # mv app/build/outputs/apk/release/app-universal-release-unsigned.apk app/build/outputs/apk/release/syncthing-universal-${{ env.VERSION }}.apk
         env:
           ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
@@ -201,10 +138,10 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           prerelease: true
-          token: ${{ secrets.GIT_TOKEN }}
+          # token: ${{ secrets.GIT_TOKEN }}
           tag_name: ${{ env.TAG_NAME }}
           files: |
-            app/build/outputs/apk/release/syncthing*-signed.apk
+            app/build/outputs/apk/release/syncthing*.apk
 
       # - uses: actions/upload-artifact@v3
       #   with:
