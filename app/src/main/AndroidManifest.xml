@@ -138,8 +138,8 @@
             tools:ignore="ExportedReceiver"
             android:exported="true">
             <intent-filter>
-                <action android:name="gay.rooot.syncthingandroid.action.START" />
-                <action android:name="gay.rooot.syncthingandroid.action.STOP" />
+                <action android:name="${applicationId}.action.START" />
+                <action android:name="${applicationId}.action.STOP" />
             </intent-filter>
         </receiver>
         <activity android:name=".activities.FolderTypeDialogActivity"

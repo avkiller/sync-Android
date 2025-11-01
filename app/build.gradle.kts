@@ -43,12 +43,12 @@ android {
     }
 
     defaultConfig {
-        applicationId = "gay.rooot.syncthingandroid"
+        applicationId = "com.fireworld.syncthing"
         minSdk = 21
         targetSdk = 33
         versionCode = 4401
         versionName = "2.0.5"
-        testApplicationId = "gay.rooot.syncthingandroid.test"
+        testApplicationId = "com.fireworld.syncthing.test"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 

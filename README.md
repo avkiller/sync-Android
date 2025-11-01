@@ -27,7 +27,7 @@
 >    Thanks a lot to everyone who ever contributed to this app!
 > </details>
 
-# Syncmeow
+# syncthing
 
 [![License: MPLv2](https://img.shields.io/badge/License-MPLv2-blue.svg)](https://opensource.org/licenses/MPL-2.0)
 

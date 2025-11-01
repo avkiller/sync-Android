@@ -26,12 +26,12 @@ BUILD_TARGETS = [
         'jni_dir': 'arm64-v8a',
         'cc': 'aarch64-linux-android{}-clang',
     },
-    {
-        'arch': 'x86',
-        'goarch': '386',
-        'jni_dir': 'x86',
-        'cc': 'i686-linux-android{}-clang',
-    },
+    # {
+    #     'arch': 'x86',
+    #     'goarch': '386',
+    #     'jni_dir': 'x86',
+    #     'cc': 'i686-linux-android{}-clang',
+    # },
     {
         'arch': 'x86_64',
         'goarch': 'amd64',
@@ -72,7 +72,7 @@ project_dir = os.path.realpath(os.path.join(module_dir, '..'))
 # Use separate build dir so standalone ndk isn't deleted by `gradle clean`
 build_dir = os.path.join(module_dir, 'gobuild')
 go_build_dir = os.path.join(build_dir, 'go-packages')
-syncthing_dir = os.path.join(module_dir, 'src', 'github.com', 'syncthing', 'syncthing')
+syncthing_dir = os.path.join(module_dir, 'src', 'github.com', 'avkiller', 'syncthing')
 min_sdk = get_min_sdk(project_dir)
 
 # Make sure all tags are available for git describe

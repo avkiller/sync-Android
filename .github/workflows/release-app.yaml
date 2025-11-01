@@ -12,13 +12,13 @@ on:
 env:
   # Our build metadata
   BUILD_USER: android-builder
-  BUILD_HOST: github.syncmeow.deranged.network
+  BUILD_HOST: github.syncthing
 
 jobs:
   release:
     name: Release Build and Publish
     runs-on: ubuntu-latest
-    container: ghcr.io/roootthefox/syncthing-android-builder
+    container: ghcr.io/avkiller/syncthing-android-builder
     steps:
       - uses: actions/checkout@v4
         with:

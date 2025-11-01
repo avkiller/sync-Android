@@ -10,7 +10,7 @@ on:
 
 env:
   # Our build metadata
-  NDK_VERSION: "r28"
+  NDK_VERSION: "r28b"
   TAG_NAME: "nightly"
   # VERSION: "1.29.6"
 

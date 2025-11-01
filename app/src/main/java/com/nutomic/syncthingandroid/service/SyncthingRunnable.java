@@ -48,7 +48,7 @@ import eu.chainfire.libsuperuser.Shell;
 public class SyncthingRunnable implements Runnable {
 
     private static final String TAG = "SyncthingRunnable";
-    public static final String TAG_NATIVE = "SyncmeowNativeCode-" + Integer.toHexString(Math.abs(BuildConfig.APPLICATION_ID.hashCode()));
+    public static final String TAG_NATIVE = "syncthingNativeCode-" + Integer.toHexString(Math.abs(BuildConfig.APPLICATION_ID.hashCode()));
     private static final String TAG_NICE = "SyncthingRunnableIoNice";
     private static final int LOG_FILE_MAX_LINES = 10;
 
@@ -116,7 +116,7 @@ public class SyncthingRunnable implements Runnable {
             Log.w(TAG, "Failed to chmod Syncthing", e);
         }
 
-        Log.i(TAG, "SyncmeowNativeCode will log as: " + TAG_NATIVE);
+        Log.i(TAG, "syncthingNativeCode will log as: " + TAG_NATIVE);
 
         // Loop Syncthing
         Process process = null;
@@ -410,8 +410,8 @@ public class SyncthingRunnable implements Runnable {
         targetEnv.put("STMONITORED", "1");
         targetEnv.put("STNOUPGRADE", "1");
 
-        // append syncmeow to the syncthing version to distinguish from other syncthings
-        targetEnv.put("STVERSIONEXTRA", "syncmeow-" + BuildConfig.BUILD_TYPE + "-" + BuildConfig.VERSION_NAME + "_" + BuildConfig.VERSION_CODE);
+        // append syncthing to the syncthing version to distinguish from other syncthings
+        targetEnv.put("STVERSIONEXTRA", "syncthing-" + BuildConfig.BUILD_TYPE + "-" + BuildConfig.VERSION_NAME + "_" + BuildConfig.VERSION_CODE);
         if (mPreferences.getBoolean(Constants.PREF_USE_TOR, false)) {
             targetEnv.put("all_proxy", "socks5://localhost:9050");
             targetEnv.put("ALL_PROXY_NO_FALLBACK", "1");

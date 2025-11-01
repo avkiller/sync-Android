@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Syncmeow*</string>
+    <string name="app_name">syncthing*</string>
     <string name="app_description">An open, trustworthy and decentralized file synchronization application. (Debug Build)</string>
     <string name="syncthing_active">Syncthing is running (DEBUG)</string>
 </resources>
