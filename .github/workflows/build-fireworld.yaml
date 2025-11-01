@@ -15,6 +15,7 @@ env:
   VERSION: "2.0.0"
   APP_VERSION: "2.0.0"
   DefaultVERSION: "2.0.0"
+  DefaultLIBVERSION: "V2.0.0"
 
 jobs:
   setup_env:
@@ -47,14 +48,14 @@ jobs:
               app_version=${{ env.DefaultVERSION }}
             fi
 
-            lib_version="${LATEST_LIB_TAG#v}"
+            lib_version="${LATEST_LIB_TAG}"
             if [[ "$lib_version" == "nightly" ]]; then
               lib_version=${{ env.DefaultVERSION }}
             fi
           else
            
             app_version=${{ env.DefaultVERSION }}
-            lib_version=${{ env.DefaultVERSION }}
+            lib_version=${{ env.DefaultLIBVERSION }}
 
           fi
 
