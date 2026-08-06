@@ -1,0 +1,46 @@
+name: Update Submodules
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - ".github/**"
+      - "docs/**"
+      - "README.md"
+      - "res/**"
+      - "docker/**"
+      - "scripts/**"
+  workflow_dispatch:
+
+jobs:
+  update-submodules:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Update Submodules
+        run: |
+          git config --global user.email "avkiller2012@gmail.com"
+          git config --global user.name "avkiller"
+          git submodule update --init --recursive
+          git submodule update --recursive --remote
+          
+      - name: Check for changes
+        id: check_changes
+        run: |
+          # echo "::set-output name=changes::$(git status --porcelain)"
+          echo "changes=$(git status --porcelain)" >> $GITHUB_OUTPUT
+      - name: Commit and push changes
+        if: steps.check_changes.outputs.changes != ''
+        run: |
+          git add .
+          git commit -m "Update submodules"
+          git push
+        env:
+          GH_TOKEN: ${{ secrets.GIT_TOKEN }}
